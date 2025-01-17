@@ -40,4 +40,4 @@ jobs:
         run: bun run build
 
       - name: Start server and run tests
-        run: bunx start-server-and-test 'bun run start' http://localhost:3000 'curl -I http://localhost:3000 | grep "HTTP/1.1 200 OK"'
+        run: bunx start-server-and-test 'bun run start' http://localhost:3000 'curl -I http://localhost:3000/ar | grep "HTTP/1.1 200 OK"'
