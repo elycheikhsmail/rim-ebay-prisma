@@ -39,10 +39,14 @@ jobs:
       - name: Build project
         run: bun run build
 
-      - name: Start application
-        run: bun run start 
+
+        - name: Start application
+        uses: samuelmeuli/start-server-and-test@v1
+        with:
+          start: bun run start
+          url: http://localhost:3000
+          wait-on: http://localhost:3000
 
       - name: Verify application
         run: |
-          sleep 5
           curl -I http://localhost:3000 | grep "HTTP/1.1 200 OK"
