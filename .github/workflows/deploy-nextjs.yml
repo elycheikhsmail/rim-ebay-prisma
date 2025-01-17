@@ -1,0 +1,40 @@
+name: Deploy Next.js Application
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      # Installer curl si nécessaire
+      - name: Install curl
+        run: sudo apt-get update && sudo apt-get install -y curl
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set up environment variables
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+
+      - name: Build project
+        run: npm run build
+
+      - name: Start application
+        run: npm run start &
+
+      - name: Verify application
+        run: |
+          sleep 5
+          curl -I http://localhost:3000 | grep "HTTP/1.1 200 OK"
