@@ -20,19 +20,27 @@ jobs:
       - name: Install curl
         run: sudo apt-get update && sudo apt-get install -y curl
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Set up environment variables
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
+      # Installer Bun
+      - name: Install Bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo 'export BUN_INSTALL="$HOME/.bun"' >> $GITHUB_ENV
+          echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >> $GITHUB_ENV
+        shell: bash
+
+      - name: Install dependencies
+        run: bun install
+
       - name: Build project
-        run: npm run build
+        run: bun run build
 
       - name: Start application
-        run: npm run start &
+        run: bun run start 
 
       - name: Verify application
         run: |
