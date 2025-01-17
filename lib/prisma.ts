@@ -1,5 +1,7 @@
 // lib/prisma.ts { PrismaClient }
-import  { PrismaClient }  from '../generated/client'
+//import  { PrismaClient }  from '../generated/client'
+
+import { PrismaClient } from '@prisma/client';
  
  
 // use `prisma` in your application to read and write data in your DB
