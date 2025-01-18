@@ -1,4 +1,4 @@
-name: Deploy Next.js Application
+name: Deploy Next.js and Neon Application
 
 on:
   workflow_dispatch:

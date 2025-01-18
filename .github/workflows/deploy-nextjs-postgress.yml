@@ -1,4 +1,4 @@
-name: Deploy Next.js Application
+name: Deploy Next.js and PostgreSQL Application
 
 on:
   workflow_dispatch:
