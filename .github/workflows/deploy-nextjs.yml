@@ -38,6 +38,27 @@ jobs:
 
       - name: Build project
         run: bun run build
+      - name: Start server in background
+        run: |
+          nohup bun run start &
+          sleep 10
 
-      - name: Start server and see
-        run: bun run start 
+      - name: Check if index page is up
+        run: |
+          STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:3000)
+          if [ "$STATUS_CODE" -ne 200 ]; then
+            echo "Error: expected 200, got $STATUS_CODE"
+            exit 1
+          fi
+          echo "Index page is returning status 200 - OK!"
+
+      - name: Test Application
+        run: |
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000)
+          if [ $HTTP_STATUS -eq 200 ]; then
+            echo "✅ Application is running correctly (HTTP 200)"
+              exit 0
+            else
+              echo "❌ Application failed to start properly (HTTP $HTTP_STATUS)"
+              exit 1
+            fi
