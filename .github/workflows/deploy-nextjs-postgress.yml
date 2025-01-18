@@ -24,6 +24,7 @@ jobs:
           sudo service postgresql start
           # Création d'un utilisateur et d'une base
           sudo -u postgres psql -c "CREATE USER dev WITH PASSWORD 'dev';"
+          sudo -u postgres psql -c "ALTER USER dev WITH CREATEDB;"
           sudo -u postgres psql -c "CREATE DATABASE mydb WITH OWNER dev;"
 
       # Injection explicite de la variable d'environnement DATABASE_URL
@@ -41,7 +42,7 @@ jobs:
   
       - name: seed database
         run: bun run seed
-        
+
       - name: Install dependencies
         run: bun install
 
