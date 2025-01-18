@@ -38,6 +38,13 @@ jobs:
  
       - name: Build project
         run: bun run build
+
+      - name: migrate database
+        run: bun run prisma migrate dev
+
+      - name: seed database
+        run: bun run seed
+
       - name: Start server in background
         run: |
           nohup bun run start &
