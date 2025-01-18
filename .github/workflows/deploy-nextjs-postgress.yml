@@ -24,7 +24,6 @@ jobs:
           sudo service postgresql start
           # Création d'un utilisateur et d'une base
           sudo -u postgres psql -c "CREATE USER dev WITH PASSWORD 'dev';"
-          sudo -u postgres psql -c "ALTER USER dev WITH CREATEDB;"
           sudo -u postgres psql -c "CREATE DATABASE mydb WITH OWNER dev;"
 
       # Injection explicite de la variable d'environnement DATABASE_URL
@@ -37,17 +36,19 @@ jobs:
         with:
           bun-version: 'latest'  # Vous pouvez spécifier une version spécifique si nécessaire
  
-      - name: migrate database
-        run: bun run prisma migrate dev
-  
-      - name: seed database
-        run: bun run seed
 
       - name: Install dependencies
         run: bun install
 
       - name: Build project
         run: bun run build
+
+        
+      - name: migrate database
+        run: bun run prisma migrate dev
+    
+      - name: seed database
+        run: bun run seed
 
       - name: Start server in background
         run: |
